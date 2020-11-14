@@ -174,6 +174,10 @@ import axios from 'axios'
         if (filtro === 'Canciones') {
           await axios.get(`https://edilser-api.herokuapp.com/api/songs/${name}`)
           .then((resp) => {
+            if (resp.data.resultCount <= 0 ) {
+              alert('No se encontraron resgitros')
+              this.limpiar()
+            } else {
               resp.data.results.forEach(element => this.vector.push(element));
               for (let i = 0; i < this.vector.length; i++) {
                 this.vector2.push({
@@ -184,11 +188,17 @@ import axios from 'axios'
                   pais: this.vector[i].country
                 })
               }
+              this.ordenar(this.vector2,'canciones');
+            }
           })
-          this.ordenar(this.vector2,'canciones');
+          
         } else if (filtro === 'Peliculas') {
           await axios.get(`https://edilser-api.herokuapp.com/api/movies/${name}`)
           .then((resp) => {
+            if (resp.data.resultCount <= 0 ) {
+              alert('No se encontraron resgitros')
+              this.limpiar()
+            } else {
               resp.data.results.forEach(element => this.vector.push(element));
               for (let i = 0; i < this.vector.length; i++) {
                 this.vector2.push({
@@ -199,11 +209,17 @@ import axios from 'axios'
                   pais: this.vector[i].country
                 })
               }
+              this.ordenar(this.vector2,'Peliculas');
+            }
           })
-          this.ordenar(this.vector2,'Peliculas');
+          
         } else if (filtro === 'Shows') {
           await axios.get(`https://edilser-api.herokuapp.com/api/shows/${name}`)
           .then((resp) => {
+            if (resp.data.length <= 0 ) {
+              alert('No se encontraron resgitros')
+              this.limpiar()
+            } else {
               resp.data.forEach(element => this.vector.push(element));
               for (let i = 0; i < this.vector.length; i++) {
                 this.vector2.push({
@@ -214,8 +230,9 @@ import axios from 'axios'
                   estreno: this.vector[i].show.premiered
                 })
               }
+              this.ordenar(this.vector2,'shows');
+            }
           })
-          this.ordenar(this.vector2,'shows');
         }
       },
       ordenar (vector, habilitar) {
